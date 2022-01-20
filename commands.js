@@ -1,4 +1,4 @@
-const connection = require('./connections.js').connection;
+const connection = require('./connection.js').connection;
 
 mp.events.addCommand('reg', (player, _, name) => {
     if (name && name.trim().length > 0) {
@@ -8,9 +8,8 @@ mp.events.addCommand('reg', (player, _, name) => {
         } catch(err) {
             console.error(err);
         }
-    } else {
-        player.outputChatBox(`ОШИБКА: /reg <nickname>`);
-    }
+    } else player.outputChatBox(`ОШИБКА: /reg <nickname>`);
+
 }
 );
 
@@ -19,9 +18,7 @@ mp.events.addCommand('startjob', (player) => {
     if(player.customData.vehicle){
         const sql = "INSERT INTO `users` (`id`, `serial`, `name`, `money`, `job`) VALUES (NULL, '1', '2', '3', '4')";
         connection.query(sql, function (err) {} )
-    } else {
-        player.outputChatBox(`ОШИБКА: Вы не в транспорте!`);
-    }
+    } else player.outputChatBox(`ОШИБКА: Вы не в транспорте!`);
 }
 );
 

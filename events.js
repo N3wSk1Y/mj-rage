@@ -1,4 +1,4 @@
-const connection = require('./connections.js').connection;
+const connection = require('./connection.js').connection;
 
 mp.events.add('playerEnteredVehicle', (player) => {
     if (player.vehicle && player.seat === 0 || player.seat === 255)
