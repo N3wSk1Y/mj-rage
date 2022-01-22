@@ -3,10 +3,10 @@ const connection = require('./connection.js').connection;
 mp.events.addCommand('reg', (player, _, name) => {
     if (name && name.trim().length > 0) {
         try {
-        const sql = "INSERT INTO `users` (`id`, `serial`, `name`, `money`, `job`) VALUES (NULL, " + `${player.serial}, ${name}, ${0}, NULL)`;
+        const sql = "INSERT INTO `users` (`id`, `serial`, `name`, `money`, `job`) VALUES (NULL, " + `'${player.serial}', ${name.trim()}, ${0}, NULL)`;
         connection.query(sql, function (err) {} )
         } catch(err) {
-            console.error(err);
+            console.log(err);
         }
     } else player.outputChatBox(`ОШИБКА: /reg <nickname>`);
 
@@ -14,7 +14,6 @@ mp.events.addCommand('reg', (player, _, name) => {
 );
 
 mp.events.addCommand('startjob', (player) => {
-    const pos = player.position;
     if(player.customData.vehicle){
         const sql = "INSERT INTO `users` (`id`, `serial`, `name`, `money`, `job`) VALUES (NULL, '1', '2', '3', '4')";
         connection.query(sql, function (err) {} )
