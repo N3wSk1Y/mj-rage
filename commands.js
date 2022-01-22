@@ -20,13 +20,15 @@ mp.events.addCommand('reg', (player, _, name) => {
 mp.events.addCommand('startjob', (player) => {
     if(player.vehicle) {
         if(!player.customData.job) {
-            const sql = "UPDATE `users` SET `job` = 'busDriver' WHERE `users`.`serial` = " + `'${player.serial}'`;
-            connection.query(sql, function (err) {} )
-            player.outputChatBox(`Работа водителя автобуса начата, двигайтесь по меткам! Закончить работу - /stopjob`)
-            player.customData.job = 'busDriver';
+            if(player.customData.name) {
+                const sql = "UPDATE `users` SET `job` = 'busDriver' WHERE `users`.`serial` = " + `'${player.serial}'`;
+                connection.query(sql, function (err) {} )
+                player.outputChatBox(`Работа водителя автобуса начата, двигайтесь по меткам! Закончить работу - /stopjob`)
+                player.customData.job = 'busDriver';
 
-            BusWayPoint(0);
-
+                BusWayPoint(0);
+                player.customData.jobStep = 1;
+            } else player.outputChatBox(`ОШИБКА: Зарегистрировать аккаунт - /reg <nickname>`);
         } else player.outputChatBox(`ОШИБКА: Вы уже работаете. Уволиться с работы - /stopjob`);
     } else player.outputChatBox(`ОШИБКА: Вы не в транспорте!`);
 }
@@ -36,7 +38,8 @@ mp.events.addCommand('stopjob', (player) => {
     if(player.customData.job) {
         const sql = "UPDATE `users` SET `job` = NULL WHERE `users`.`serial` = " + `'${player.serial}'`;
         connection.query(sql, function (err) {} )
-        player.outputChatBox(`Вы были уволены с работы!`)
+        player.outputChatBox(`Вы были уволены с работы!`);
+        player.vehicle.destroy();
     } else player.outputChatBox(`ОШИБКА: Вы не на работе!`);
 }
 );
@@ -51,14 +54,14 @@ mp.events.addCommand('info', (player) => {
 
 mp.events.addCommand('spawnbus', (player) => {
     player.position = {
-        x: 36.8188835144043,
-        y: -24.30612564086914,
-        z: 69.23573303222656
+        x: 42,
+        y: -13,
+        z: 69
       }
     Vector3 = {
-        x: 36.7188835144043,
-        y: -24.30612564086914,
-        z: 69.23573303222656
+        x: 36,
+        y: -24,
+        z: 69
       }
     mp.vehicles.new(mp.joaat('airbus'), Vector3);
 })
